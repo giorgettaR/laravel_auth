@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+
+            $table->string('title', 150);
+            $table->string('slug')->unique();
+            $table->text('description');
+            $table->integer('budget');
+            $table->string('client', 150);
+            $table->date('due_date')->nullable();
+
             $table->timestamps();
         });
     }
