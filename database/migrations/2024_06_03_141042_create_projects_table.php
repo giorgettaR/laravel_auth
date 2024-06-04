@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('title', 150);
             $table->string('slug')->unique();
             $table->text('description');
-            $table->integer('budget');
-            $table->string('client', 150);
-            $table->date('due_date')->nullable();
+            $table->string('repository_link', 500);
+            $table->string('languages', 200);
+            $table->string('softwares', 200);
+            $table->string('authors', 200);
+            $table->string('image_link', 500);
 
             $table->timestamps();
         });
