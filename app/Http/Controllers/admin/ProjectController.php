@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -13,7 +16,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::all();
+
+        return view ('admin.projects.index', compact('projects'));
     }
 
     /**
@@ -21,7 +26,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -29,7 +34,24 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $form_data = $request->all();
+        $base_slug = Str::slug($form_data['title']);
+        $slug = $base_slug;
+        $n = 0;
+
+        do {
+            $isthere = Project::where('slug', $slug)->first();
+            if ($isthere !== null) {
+                $n++;
+                $slug = $base_slug . '-' . $n;
+            }
+        } while ($isthere !== null);
+
+        $form_data['slug'] = $slug;
+
+        $project = Project::create($form_data);
+
+        return to_route('admin.projects.show', $project);
     }
 
     /**
@@ -37,7 +59,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -45,7 +67,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -53,7 +75,10 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $form_data = $request->all();
+        $project->update($form_data);
+
+        return to_route('admin.projects.show', $project);
     }
 
     /**
@@ -61,6 +86,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return to_route('admin.projects.index');
     }
 }
