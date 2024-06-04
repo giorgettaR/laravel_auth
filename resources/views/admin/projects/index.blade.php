@@ -46,11 +46,31 @@
           <a href="{{ route('admin.projects.edit',$project) }}" class="align-middle">Edit</a>
         </td>
         <td>
-          <form action="{{ route('admin.projects.destroy',$project) }}" method="POST">
-            @method('DELETE')
-            @csrf
-            <button class="btn btn-link link-danger" class="pb-2">Elimina</button>
-          </form>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Elimina
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header justify-content-center">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Vuoi davvero eliminare il progetto?</h1>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Ho cambiato idea</button>
+                    <form action="{{ route('admin.projects.destroy',$project) }}" method="POST">
+                      @method('DELETE')
+                      @csrf
+
+                      <button class="btn btn-outline-danger">Elimina</button>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
         </td>
         
       </tr>
