@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
 
@@ -14,22 +13,19 @@ class ProjectSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(Faker $faker): void
+    public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
-
             $project = new Project();
 
-            $title = $faker->sentence(4);
-
-            $project->title = $title;
-            $project->slug = Str::slug($title);
-            $project->description = $faker->paragraph(5);
-            $project->budget = $faker->numberBetween(20000, 1000);
-            $project->client = $faker->company();
-            $project->due_date = $faker->dateTimeBetween('now', '+10 years');
+            $project->title = 'Progetto';
+            $project->slug = Str::slug('Progetto');
+            $project->description = 'Questo progetto è molto bello, mi piace davvero questo progetto.';
+            $project->repository_link = 'https://github.com/giorgettaR/laravel_auth';
+            $project->languages = 'php';
+            $project->softwares = 'Visual Studio Code';
+            $project->authors = 'Roberto Giorgetta';
+            $project->image_link = 'https://m.media-amazon.com/images/I/81ldgERfzaL._AC_UF1000,1000_QL80_.jpg';
 
             $project->save();
-        }
     }
 }
